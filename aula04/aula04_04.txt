@@ -1,0 +1,31 @@
+public class Main {
+  public static void main(String[] args) {
+    for (int i = 0; i <= 10; i++) {
+      if (i % 2 == 0) // Verifica se se o resto de sua divisão por 2 é 0
+      System.out.println(i); //Imprime a variável de controle
+    }
+  }
+}
+
+
+public class Main {
+  public static void main(String[] args) {
+    int i = 0;
+    while(i <= 10) {
+      if (i % 2 != 0) //Verifica se o resto da divisão por 2 é diferente de zero.
+      System.out.println(i); //Imprime a variável de controle
+      i++; //Incrementa a variável de controle
+    }
+  }
+}
+
+
+public class Main {
+  public static void main(String[] args) {
+    int i = 10;
+    do {
+      System.out.println(i); //Imprime a variável de controle
+      i--; //Decremanta a variável de controle
+    } while (i != 0); //Condição de parada
+  }
+}
