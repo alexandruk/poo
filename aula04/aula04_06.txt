@@ -1,0 +1,27 @@
+/* Calcula o Fatorial */
+public class Fatorial {
+  public static void main (String args[]) {
+    int fat = 5;
+    int resul = fat;
+    while (fat > 1) {
+      resul *=(fat-1);
+      fat--; //
+    }
+    System.out.println(resul);
+  }
+}
+
+
+
+/* Calcula o Fatorial */
+public class Main {
+  public static void main (String args[]) {
+    int fat = 5;
+    int resul = 1;
+    for(int i = fat; i > 1; i--) {
+      resul *= fat; 
+      fat--;
+    }
+    System.out.println(resul);
+  }
+}
