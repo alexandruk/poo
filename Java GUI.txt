@@ -1,0 +1,164 @@
+GUI (Graphical User Interface)
+
+Objetivo: Iniciar o desenvolvimento de interfaces para sistemas desktop. (Interfaces para sistemas mobile, web e demais serão vistas em outras disciplinas, pois  há diferenças crucias na organização e administração do projeto para cada tipo de interface.)
+
+Introdução
+
+•	Java oferece duas APIs para uso gráfico: a AWT (Abstract Window Toolkit) e a Swing.
+•	A AWT ainda pode ser utilizada, mas foi substituída pela Swing a partir do Java 1.2.
+•	A biblioteca Swing provê melhor aparência aos componentes, melhor tratamento de eventos e recursos estendidos.
+•	As classes do Swing são extensões do pacote AWT.
+•	As classes da AWT fazem parte do pacote java.awt e as classes do Swing são encontradas no pacote javax.swing.
+•	Uma vantagem do uso do pacote Swing é que uma aplicação terá a mesma forma, aparência e comportamento, independente do sistema operacional em que rodar.
+
+Laboratório
+
+Criar o projeto PrimeiraGUI
+
+Criar um package denominado br.com.empresa.view
+
+Criar um package denominado br.com.empresa.principal
+
+Criar a classe Janela no package br.com.empresa.view, conforme segue:
+
+
+package br.com.empresa.view;
+ 
+import javax.swing.JFrame;
+ 
+public class Janela {
+ 
+  JFrame janela = new JFrame(); //criar um objeto JFrame chamado 'janela'
+ 
+  //Construtor da classe, que gera um objeto de tela (jFrame)
+  public Janela() {
+    janela.setTitle("Minha primeira tela em Java!");  //título da janela
+    janela.setSize(800, 600); //largura e a altura da janela, em pixels
+    janela.setLocation(100, 150); //define a posição da janela coluna e linha
+    //para centralizar a janela: retire a linha janela.setLocation(100, 150); e substitua pela seguinte:
+    //janela.setLocationRelativeTo(null);
+    //para janela ocupar 100% da tela: "descomente" a próxima linha:
+    //janela.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //ao fechar a janela, encerra a aplicação
+  }
+ 
+  //Método para mostrar a Janela
+  public void mostraJanela() {
+    janela.setVisible(true); //torna a janela visível
+  }
+}
+
+Criar a classe Principal no package br.com.empresa.principal, conforme segue:
+
+package br.com.empresa.principal;
+ 
+import br.com.empresa.view.Janela;
+ 
+public class Principal {
+ 
+  public static void main(String args[]) {
+    //Cria uma instância da classe Janela
+    //Aciona o construtor da classe Janela
+    Janela j = new Janela();
+ 
+    //Dispara o método que torna a Janela visível
+    j.mostraJanela();
+  }
+}
+
+Componentes
+
+Os componentes do pacote Swing mais comuns são:
+•	JButton: Botão
+•	JTextField: Campo de texto
+•	JLabel: Etiqueta (um campo de texto que não pode ser editado pelo usuário)
+•	JPasswordField: Campo para senha (o texto digitado não é mostrado para o usuário)
+•	JCheckBox: Caixa para múltipla seleção
+•	JComboBox: Caixa de seleção suspensa (o usuário clica na caixa e uma lista de opções é exibida) 
+•	JList: Lista que permite múltiplas seleções
+•	JMenu: Caixa de menu para aplicações desktop que aparecem na parte superior da aplicação
+•	JRadioButton: Botões onde o usuário possui várias opções e escolhe apenas uma
+•	JSlider: Controle que pode ser deslizado de um lado para o outro, como um controle de volume
+
+ 
+Laboratório
+
+Criar a classe Janela2 no package br.com.empresa.view, conforme segue:
+
+package br.com.empresa.view;
+ 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+ 
+//Nossa classe Janela2 é um jFrame, por isso o extends
+public class Janela2 extends JFrame {
+ 
+    //Atributos locais
+    private JLabel lblNome, lblRenda;
+    private JTextField txtNome, txtRenda;
+    private JButton btnSalvar, btnSair;
+ 
+    //Construtor
+    public Janela2() {
+        //Define o layout como nulo (porque será definido por nós)
+        setLayout(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE); //Ao fechar, encerra o programa
+ 
+        //Propriedades do jFrame:
+        setSize(600, 200); //Tamanho
+        setLocation(200, 300); //Posição
+        setTitle("Controle de Clientes"); //título
+ 
+        //Propriedades dos campos do formulário
+        lblNome = new JLabel("Nome:");
+        lblNome.setSize(50, 30);
+        lblNome.setLocation(30, 10);
+        add(lblNome);
+ 
+        txtNome = new JTextField();
+        txtNome.setSize(480, 30);
+        txtNome.setLocation(80, 10);
+        add(txtNome);
+ 
+        lblRenda = new JLabel("Renda:");
+        lblRenda.setSize(50, 30);
+        lblRenda.setLocation(30, 45);
+        add(lblRenda);
+ 
+        txtRenda = new JTextField();
+        txtRenda.setSize(100, 30);
+        txtRenda.setLocation(80, 45);
+        add(txtRenda);
+ 
+        btnSalvar = new JButton("Salvar");
+        btnSalvar.setSize(80, 30);
+        btnSalvar.setLocation(30, 90);
+        add(btnSalvar);
+
+        btnSair = new JButton("Sair");
+        btnSair.setSize(80, 30);
+        btnSair.setLocation(120, 90);
+        add(btnSair);
+    }
+}
+
+
+
+Criar a classe Principal no package br.com.empresa.principal, conforme segue:
+
+package br.com.empresa.principal;
+ 
+import br.com.empresa.view.Janela2;
+ 
+public class Principal2 {
+ 
+    public static void main(String args[]) {
+        //Cria uma instância da classe Janela2
+        Janela2 j2 = new Janela2();
+ 
+        //Seta a janela2 como visível
+        j2.setVisible(true);
+    }
+}
