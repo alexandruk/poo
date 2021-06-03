@@ -1,0 +1,184 @@
+Criar o projeto BancoDeDados
+Criar um package denominado br.com.empresa.dao
+Criar um package denominado br.com.empresa.negocio
+Criar um package denominado br.com.empresa.view
+Criar a classe Conecta no package br.com.empresa.dao, conforme segue:
+
+
+package br.com.empresa.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Conecta {
+
+  public Connection getConecta() {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/teste", "root", "");
+      System.out.println("Conectado com sucesso");
+    } catch (SQLException e) {
+      System.err.println("Erro ao conectar");
+    }
+    return conn;
+  }
+
+}
+
+Criar a classe Cliente no package br.com.empresa.negocio, conforme segue:
+
+package br.com.empresa.negocio;
+
+public class Cliente {
+ 
+  private int codigo;
+  private String nome;
+ 
+  public int getCodigo() {
+    return codigo;
+  }
+ 
+  public void setCodigo(int codigo) {
+    this.codigo = codigo;
+  }
+ 
+  public String getNome() {
+    return nome;
+  }
+ 
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
+}
+
+
+Criar a classe ClienteDAO no package br.com.empresa.DAO, conforme segue:
+
+package br.com.empresa.dao;
+
+import br.com.empresa.negocio.Cliente;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+ 
+public class ClienteDAO {
+ 
+  //Método que retorna a lista de clientes do sistema
+  public List<Cliente> getListaClientes() {
+ 
+    try {
+      //Conecta ao banco através da classe de conexão
+      Conecta con = new Conecta();
+      con.getConecta();
+ 
+      //Select na tabela cliente
+      String sql = "select * from cliente;";
+ 
+      //Executa a query
+      PreparedStatement comando = con.getConecta().prepareStatement(sql);
+      ResultSet resultado = comando.executeQuery();
+ 
+      //Prepara a lista de carros para retornar
+      List<Cliente> listaCliente = new ArrayList<Cliente>();
+ 
+      //para cada item retornado no select, faça...
+      while (resultado.next()) {
+        Cliente c = new Cliente(); //Cria um cliente novo na memória
+        c.setCodigo(resultado.getInt("codigo")); //Seta o Codigo
+        c.setNome(resultado.getString("nome")); //Seta o nome
+ 
+        //insere o carro na lista local
+        listaCliente.add(c);
+      }
+ 
+      //Ao terminar o laço, fecha a conexão
+      resultado.close();
+      comando.close();
+      con.getConecta().close();
+ 
+      //Retorna a lista de clientes
+      return listaCliente;
+ 
+    } catch (Exception e) { //Se der algum excessão...
+       System.out.println(e.getMessage());
+       return null;
+    }
+  }
+
+  public boolean insereCliente(Cliente c) {
+    try {
+      Conecta conexao = new Conecta();
+      conexao.getConecta();
+ 
+         String sql = "";
+         sql += "insert into cliente (codigo,nome)";
+         sql += " values";
+         sql += "(" + c.getCodigo() + ",'" + c.getNome() + "')";
+ 
+         PreparedStatement comando = conexao.getConecta().prepareStatement(sql);
+         comando.executeUpdate(sql);
+         return true; // se inseriu, retorna verdadeiro.
+ 
+        } catch (Exception e) { // Se deu algum erro...
+           System.out.println(e.getMessage());
+           return false;
+      }
+   }
+}
+
+
+
+Criar a classe Principal no package br.com.empresa.view, conforme segue:
+
+package br.com.empresa.view;
+
+import br.com.empresa.dao.ClienteDAO;
+import br.com.empresa.negocio.Cliente;
+import java.util.ArrayList;
+import java.util.List;
+ 
+public class Principal {
+ 
+  public static void main(String args[]) {
+    listaTodosClientes();
+ 
+    // Inserir um cliente novo no banco:
+    // Cria a instância e seta os valores
+    Cliente cliente = new Cliente();
+    cliente.setCodigo(4444);
+    cliente.setNome("Pedro");
+ 
+    //Insere...
+    ClienteDAO cD = new ClienteDAO();
+    cD.insereCliente(cliente);
+    System.out.println("\n\nCliente inserido!\n\n");
+ 
+    //Vamos listar todos os clientes agora, para ver o novo cliente na lista...
+    listaTodosClientes();
+    }
+ 
+    //Método de listagem de todos os clientes
+    public static void listaTodosClientes() {
+ 
+      //Cria uma instância de CarrosDAO na memória
+      ClienteDAO cliente = new ClienteDAO();
+ 
+      //Cria a lista de clientes local, que será preenchida
+      List<Cliente> listaDeClientes = new ArrayList<Cliente>();
+ 
+      //Obtém a lista de clientes através do objeto
+      listaDeClientes = cliente.getListaClientes();
+ 
+      //Começa a imprimir os dados
+      System.out.println("Codigo\t|\tNome");
+        System.out.println("----\t|\t-----");
+        for (Cliente clienteLocal : listaDeClientes) { //Para cada cliente na lista de clientes...
+            System.out.print(clienteLocal.getCodigo() + "\t|\t");
+            System.out.print(clienteLocal.getNome());
+            System.out.println();
+        }
+    }
+}
